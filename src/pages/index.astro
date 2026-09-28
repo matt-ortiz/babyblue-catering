@@ -1,0 +1,582 @@
+---
+import { Image } from 'astro:assets';
+import { getCollection, getEntry } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import ServiceCard from '../components/ServiceCard.astro';
+import MenuCard from '../components/MenuCard.astro';
+import Testimonials from '../components/Testimonials.astro';
+import PhotoSlot from '../components/PhotoSlot.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { site, categories } from '../data/site';
+import { steps, faqs } from '../data/content';
+import { faqSchema, chefSchema } from '../lib/schema';
+
+import hero from '../assets/photos/surf-and-turf-skillet.jpg';
+import introA from '../assets/photos/chef-at-counter-with-guests.jpg';
+import introB from '../assets/photos/seared-scallops-trio.jpg';
+import chef from '../assets/photos/chef-jacob-ritenour.jpg';
+import catInHome from '../assets/photos/dinner-party-guests.jpg';
+import catEvents from '../assets/photos/tented-wedding-reception.jpg';
+import catChef from '../assets/photos/chef-jacob-plating.jpg';
+import catCorp from '../assets/photos/corporate-event-setup.jpg';
+import g1 from '../assets/photos/sushi-roll-plated.jpg';
+import g2 from '../assets/photos/hors-doeuvres-tray.jpg';
+import bandMain from '../assets/photos/beef-tenderloin-plated.jpg';
+import bandFire from '../assets/photos/tableside-flambe.jpg';
+import bandSushi from '../assets/photos/chef-garnishing-sushi.jpg';
+import g3 from '../assets/photos/chocolate-truffles.jpg';
+import g4 from '../assets/photos/family-style-dinner.jpg';
+import g5 from '../assets/photos/bacon-wrapped-shrimp-spoon.jpg';
+
+const services = await getCollection('services');
+const featuredIds = ['in-home-dinner-party', 'in-home-sushi-party', 'romantic-dinner-for-two', 'invisible-chef-service', 'elegant-buffet-experience', 'personal-chef-service'];
+const featured = featuredIds.map((id) => services.find((s) => s.id === id)!).filter(Boolean);
+const showcaseMenu = (await getEntry('menus', 'dennis-and-jeri'))!;
+
+const catImages = { 'in-home': catInHome, events: catEvents, chef: catChef, corporate: catCorp } as const;
+const cats = Object.entries(categories).map(([key, c]) => ({ key, ...c, img: catImages[key as keyof typeof catImages] }));
+const gallery = [
+  { src: g1, alt: 'Sushi rolls topped with avocado' },
+  { src: g2, alt: 'A row of hors d’oeuvres on a white serving tray' },
+  { src: g3, alt: 'Handmade chocolate truffles' },
+  { src: g4, alt: 'Guests sharing a family-style wedding dinner' },
+  { src: g5, alt: 'Bacon-wrapped shrimp on a porcelain spoon' },
+];
+---
+
+<Base
+  title="Private Chef & Catering in McKinney, TX | BabyBlue Modern Catering"
+  description="In-home dinner parties, sushi nights, weddings and private chef services in McKinney, Frisco, Allen & Plano. We shop, cook, serve and clean, so you can enjoy your guests."
+  image={hero}
+  imageAlt="A skillet of crab legs, shrimp, steak, corn and potatoes"
+  overlayHeader
+  schema={[faqSchema(faqs.slice(0, 5)), chefSchema()]}
+>
+  <!-- HERO -->
+  <section class="hero on-dark">
+    <Image src={hero} alt="A cast-iron skillet of snow crab, shrimp, steak, corn and potatoes on a rustic board" widths={[800, 1280, 1800, 2400]} sizes="100vw" class="hero__img" loading="eager" fetchpriority="high" />
+    <div class="hero__inner wrap">
+      <h1 class="hero__title">
+        <span class="eyebrow">Private chef &amp; catering · McKinney, Texas</span>
+        <span class="hero__display">Dinner is served. <em>You're the guest.</em></span>
+      </h1>
+      <p class="hero__lead">In-home dinner parties, sushi nights, weddings and private chef experiences. We shop, cook, serve and clean, so you can simply enjoy the people around your table.</p>
+      <div class="btn-row">
+        <a class="btn btn--light" href="/contact/">Plan your event</a>
+        <a class="btn btn--ghost-light" href="#experiences">Explore experiences</a>
+      </div>
+    </div>
+    <div class="hero__foot wrap">
+      <span>Serving {site.serviceArea.slice(0, 5).join(' · ')}</span>
+    </div>
+  </section>
+
+  <!-- INTRO -->
+  <section class="section intro">
+    <div class="wrap intro__grid">
+      <div class="intro__text reveal">
+        <p class="eyebrow">The BabyBlue experience</p>
+        <h2 class="h2">Restaurant-quality food, served with the warmth of <em>your own home.</em></h2>
+        <p class="lead">Our greatest desire is that you don't just enjoy your event, but remember it. Every menu is designed with you, built on the freshest seasonal ingredients (organic whenever possible) and served by a team that loves what it does.</p>
+        <ul class="pillars">
+          <li><span>01</span><strong>We shop</strong> for the freshest local and organic ingredients.</li>
+          <li><span>02</span><strong>We cook</strong> in your kitchen or on location.</li>
+          <li><span>03</span><strong>We serve</strong> with polished, friendly professionals.</li>
+          <li><span>04</span><strong>We clean,</strong> leaving your kitchen spotless.</li>
+        </ul>
+      </div>
+      <div class="intro__media">
+        <div class="frame intro__a reveal"><Image src={introA} alt="Chef Jacob preparing food at a kitchen island as guests look on" widths={[600, 900, 1200]} sizes="(max-width: 900px) 90vw, 40vw" class="cover-img" /></div>
+        <div class="frame intro__b reveal"><Image src={introB} alt="Three seared scallops over butternut purée" widths={[400, 700]} sizes="(max-width: 900px) 50vw, 20vw" class="cover-img" /></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CATEGORIES -->
+  <section class="section section--white" id="experiences">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">What we do</p>
+        <h2 class="h2">Four ways to gather</h2>
+      </div>
+      <div class="cats">
+        {cats.map((c) => (
+          <a class="cat reveal" href={c.href}>
+            <div class="frame cat__media"><Image src={c.img} alt="" widths={[500, 800]} sizes="(max-width: 700px) 100vw, 25vw" class="cover-img" /></div>
+            <h3 class="cat__title">{c.label}</h3>
+            <p class="cat__blurb">{c.blurb}</p>
+            <span class="link-arrow">View all <span aria-hidden="true">→</span></span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURED -->
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head section-head--split">
+        <div>
+          <p class="eyebrow">Signature experiences</p>
+          <h2 class="h2">Our most-loved evenings</h2>
+        </div>
+        <p class="muted">Transparent starting prices. Every menu is then written around your tastes, your guests and your dietary needs.</p>
+      </div>
+      <div class="grid-3">
+        {featured.map((s) => <ServiceCard service={s} />)}
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE BAND -->
+  <section class="section section--ink on-dark band">
+    <div class="wrap band__grid">
+      <div class="band__copy reveal">
+        <p class="eyebrow">Food creates connection</p>
+        <h2 class="h2">A menu should move the room.</h2>
+        <p class="lead">Seasonal ingredients, thoughtful pacing, and a little theatre when the moment calls for it.</p>
+        <nav class="band__links" aria-label="Featured service styles">
+          <a href="/fabulous-seated-dinner-experience/">Seated dinners <span aria-hidden="true">→</span></a>
+          <a href="/interactive-stations/">Interactive stations <span aria-hidden="true">→</span></a>
+          <a href="/hors-d-oeuvre-party/">Cocktail receptions <span aria-hidden="true">→</span></a>
+        </nav>
+      </div>
+      <div class="frame band__main reveal"><Image src={bandMain} alt="Glazed beef tenderloin garnished with an edible pansy" widths={[600, 900, 1300]} sizes="(max-width: 900px) 100vw, 40vw" class="cover-img" /></div>
+      <div class="band__stack">
+        <div class="frame reveal"><Image src={bandFire} alt="Flames leaping from a pan during a tableside flambé" widths={[400, 700]} sizes="(max-width: 900px) 50vw, 25vw" class="cover-img" /></div>
+        <div class="frame reveal"><Image src={bandSushi} alt="Chef garnishing sushi rolls with tweezers" widths={[400, 700]} sizes="(max-width: 900px) 50vw, 25vw" class="cover-img" /></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MENU SHOWCASE -->
+  <section class="section section--sand">
+    <div class="wrap showcase">
+      <div class="showcase__text reveal">
+        <p class="eyebrow">From a real evening</p>
+        <h2 class="h2">Every menu is written <em>for you.</em></h2>
+        <p class="lead">No set menus and no reheated trays. Chef Jacob designs each dinner around the people at the table. Here's one we cooked for Dennis and Jeri's dinner party, which blended his love of Japanese technique with classic American comfort.</p>
+        <a class="link-arrow" href="/in-home-dinner-party/">See the dinner party experience <span aria-hidden="true">→</span></a>
+      </div>
+      <MenuCard menu={showcaseMenu} />
+    </div>
+  </section>
+
+  <!-- PROCESS -->
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head section-head--center">
+        <p class="eyebrow">How it works</p>
+        <h2 class="h2">From first hello to the last dish washed</h2>
+      </div>
+      <ol class="steps">
+        {steps.map((s, i) => (
+          <li class="reveal">
+            <span class="steps__n">{String(i + 1).padStart(2, '0')}</span>
+            <h3>{s.title}</h3>
+            <p>{s.body}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <!-- CHEF -->
+  <section class="section section--white">
+    <div class="wrap chef">
+      <div class="chef__media reveal">
+        <PhotoSlot brief="chef-portrait" src={chef} alt="Chef Jacob Ritenour standing in a kitchen with copper pots" widths={[500, 736]} sizes="(max-width: 900px) 70vw, 32vw" class="chef__img" />
+        <div class="frame chef__action">
+          <Image src={catChef} alt="Chef Jacob seasoning a sushi platter at a kitchen island" widths={[300, 491]} sizes="(max-width: 900px) 45vw, 20vw" class="cover-img" />
+        </div>
+      </div>
+      <div class="chef__text reveal">
+        <p class="eyebrow">Meet the chef</p>
+        <h2 class="h2">Jacob Thaller Ritenour</h2>
+        <p class="lead">Raised in a family of restaurateurs and caterers, Chef Jacob has spent well over a decade planning, cooking and executing events large and small.</p>
+        <p>His roots are in classic Western cooking, but his passion is Asian cuisine, sushi above all. He designs every menu from scratch with a clean, modern perspective: let beautiful, fresh ingredients speak for themselves.</p>
+        <a class="link-arrow" href="/about/">Our story <span aria-hidden="true">→</span></a>
+      </div>
+    </div>
+  </section>
+
+  <Testimonials />
+
+  <!-- GALLERY -->
+  <section class="gallery" aria-label="Gallery">
+    {gallery.map((g) => (
+      <div class="frame gallery__item"><Image src={g.src} alt={g.alt} widths={[400, 700]} sizes="(max-width: 700px) 50vw, 20vw" class="cover-img" /></div>
+    ))}
+  </section>
+
+  <!-- FAQ -->
+  <section class="section">
+    <div class="wrap faq-wrap">
+      <div class="section-head">
+        <p class="eyebrow">Good to know</p>
+        <h2 class="h2">Questions, answered</h2>
+        <a class="link-arrow" href="/faq/">All FAQs <span aria-hidden="true">→</span></a>
+      </div>
+      <div class="faq">
+        {faqs.slice(0, 5).map((f) => (
+          <details>
+            <summary>{f.q}</summary>
+            <p>{f.a}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <CtaBand />
+</Base>
+
+<style>
+  /* Hero */
+  .hero {
+    position: relative;
+    isolation: isolate;
+    min-height: min(100svh, 980px);
+    display: grid;
+    grid-template-rows: 1fr auto;
+    color: var(--white);
+    overflow: hidden;
+  }
+  .hero :global(.hero__img) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 60% 50%;
+    z-index: -2;
+    animation: slow-zoom 18s var(--ease) both;
+  }
+  @keyframes slow-zoom {
+    from { transform: scale(1.08); }
+    to { transform: scale(1); }
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background:
+      linear-gradient(90deg, rgb(10 18 30 / 0.85) 0%, rgb(10 18 30 / 0.55) 45%, rgb(10 18 30 / 0.15) 100%),
+      linear-gradient(0deg, rgb(10 18 30 / 0.6) 0%, transparent 35%);
+  }
+  .hero__inner {
+    align-self: center;
+    padding-top: 8rem;
+    padding-bottom: 3rem;
+    display: grid;
+    gap: 1.8rem;
+    justify-items: start;
+  }
+  .hero__title {
+    display: grid;
+    gap: 1.4rem;
+    font-weight: 500;
+  }
+  .hero__display {
+    display: block;
+    font-size: var(--step-5);
+    line-height: 0.98;
+    max-width: 11ch;
+  }
+  .hero__display em {
+    color: var(--blue);
+  }
+  .hero__lead {
+    max-width: 44ch;
+    font-size: var(--step-1);
+    line-height: 1.55;
+    color: rgb(255 255 255 / 0.86);
+    margin: 0;
+  }
+  .hero__foot {
+    padding-block: 1.6rem;
+    border-top: 1px solid var(--line-light);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: rgb(255 255 255 / 0.7);
+  }
+
+  /* Intro */
+  .intro__grid {
+    display: grid;
+    grid-template-columns: 1.05fr 1fr;
+    gap: clamp(3rem, 7vw, 7rem);
+    align-items: center;
+  }
+  .intro__text {
+    display: grid;
+    gap: 1.4rem;
+  }
+  .intro__text .lead {
+    max-width: 48ch;
+  }
+  .pillars {
+    list-style: none;
+    padding: 0;
+    margin: 1rem 0 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.6rem 2rem;
+  }
+  .pillars li {
+    display: grid;
+    gap: 0.3rem;
+    font-size: 0.95rem;
+    color: var(--ink-soft);
+    padding-top: 1rem;
+    border-top: 1px solid var(--line);
+  }
+  .pillars span {
+    font-family: var(--serif);
+    font-style: italic;
+    color: var(--blue-deep);
+    font-size: 1.1rem;
+  }
+  .pillars strong {
+    font-family: var(--serif);
+    font-size: 1.45rem;
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .intro__media {
+    position: relative;
+    padding-bottom: 18%;
+  }
+  .intro__a {
+    aspect-ratio: 4 / 5;
+    width: 82%;
+  }
+  .intro__b {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 48%;
+    aspect-ratio: 1;
+    border: 10px solid var(--paper);
+  }
+
+  /* Categories */
+  .cats {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: clamp(1.2rem, 2.5vw, 2rem);
+  }
+  .cat {
+    display: grid;
+    gap: 0.8rem;
+    align-content: start;
+    text-decoration: none;
+  }
+  .cat__media {
+    aspect-ratio: 3 / 4;
+    margin-bottom: 0.6rem;
+  }
+  .cat__media :global(img) {
+    transition: transform 1.2s var(--ease);
+  }
+  .cat:hover .cat__media :global(img) {
+    transform: scale(1.05);
+  }
+  .cat__title {
+    font-size: var(--step-2);
+  }
+  .cat__blurb {
+    margin: 0 0 0.4rem;
+    color: var(--ink-soft);
+    font-size: 0.94rem;
+  }
+  .cat .link-arrow {
+    justify-self: start;
+  }
+
+  .section-head--split {
+    max-width: none;
+    grid-template-columns: 1fr minmax(0, 26rem);
+    align-items: end;
+    gap: 2rem;
+  }
+  .section-head--split p.muted {
+    margin: 0;
+  }
+  .grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(2rem, 4vw, 3.5rem) clamp(1.2rem, 2.5vw, 2.2rem);
+  }
+
+  /* Showcase */
+  .showcase {
+    display: grid;
+    grid-template-columns: 1fr minmax(0, 30rem);
+    gap: clamp(3rem, 7vw, 7rem);
+    align-items: center;
+  }
+  .showcase__text {
+    display: grid;
+    gap: 1.4rem;
+    justify-items: start;
+  }
+  .showcase__text .lead {
+    max-width: 46ch;
+  }
+
+  /* Steps */
+  .steps {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 2rem;
+    counter-reset: step;
+  }
+  .steps li {
+    padding-top: 1.6rem;
+    border-top: 1px solid var(--ink);
+  }
+  .steps__n {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 1.2rem;
+    color: var(--blue-deep);
+  }
+  .steps h3 {
+    font-size: var(--step-2);
+    margin: 0.6rem 0 0.8rem;
+  }
+  .steps p {
+    color: var(--ink-soft);
+    font-size: 0.95rem;
+  }
+
+  /* Chef */
+  .chef {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(3rem, 7vw, 7rem);
+    align-items: center;
+  }
+  .chef__media {
+    position: relative;
+    padding: 0 18% 14% 0;
+  }
+  .chef__media :global(.chef__img) {
+    aspect-ratio: 4 / 5;
+  }
+  .chef__media :global(.chef__img img) {
+    object-position: 62% 40%;
+  }
+  .chef__action {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 46%;
+    aspect-ratio: 2 / 3;
+    border: 10px solid var(--white);
+  }
+
+  /* Experience band */
+  .band__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.2fr) minmax(0, 0.75fr);
+    gap: clamp(1rem, 2vw, 1.5rem);
+    align-items: stretch;
+  }
+  .band__copy {
+    display: grid;
+    gap: 1.3rem;
+    align-content: center;
+    padding-right: clamp(1rem, 3vw, 3rem);
+  }
+  .band__links {
+    display: grid;
+    margin-top: 1rem;
+    border-top: 1px solid var(--line-light);
+  }
+  .band__links a {
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--line-light);
+    font-size: 0.74rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .band__links a:hover {
+    color: var(--blue);
+  }
+  .band__links span {
+    color: var(--blue);
+    transition: transform 0.3s var(--ease);
+  }
+  .band__links a:hover span {
+    transform: translateX(4px);
+  }
+  .band__main {
+    min-height: 26rem;
+  }
+  .band__stack {
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    gap: clamp(1rem, 2vw, 1.5rem);
+  }
+  .chef__text {
+    display: grid;
+    gap: 1.2rem;
+    justify-items: start;
+  }
+  .chef__text p:not(.lead):not(.eyebrow) {
+    color: var(--ink-soft);
+    max-width: 52ch;
+  }
+
+  /* Gallery */
+  .gallery {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+  }
+  .gallery__item {
+    aspect-ratio: 1;
+  }
+
+  .faq-wrap {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr);
+    gap: clamp(2rem, 6vw, 6rem);
+    align-items: start;
+  }
+  .faq-wrap .section-head {
+    justify-items: start;
+  }
+
+  @media (max-width: 1000px) {
+    .cats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .band__grid { grid-template-columns: 1fr 1fr; }
+    .band__copy { grid-column: 1 / -1; padding-right: 0; }
+    .grid-3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .steps { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  @media (max-width: 900px) {
+    .intro__grid, .showcase, .chef, .faq-wrap, .section-head--split { grid-template-columns: 1fr; }
+    .gallery { grid-template-columns: repeat(3, 1fr); }
+    .gallery__item:nth-child(n + 4) { display: none; }
+  }
+  @media (max-width: 640px) {
+    .band__grid { grid-template-columns: 1fr; }
+    .band__stack { grid-template-columns: 1fr 1fr; grid-template-rows: auto; }
+    .band__stack .frame { aspect-ratio: 1; }
+    .band__main { min-height: 18rem; }
+    .cats, .grid-3, .steps, .pillars { grid-template-columns: 1fr; }
+  }
+</style>

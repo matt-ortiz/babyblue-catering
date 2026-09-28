@@ -1,0 +1,98 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+interface Props {
+  eyebrow: string;
+  title: string;
+  lead?: string;
+  image: ImageMetadata;
+  imageAlt: string;
+  crumbs?: { name: string; path: string }[];
+}
+const { eyebrow, title, lead, image, imageAlt, crumbs = [] } = Astro.props;
+---
+<section class="phero on-dark">
+  <Image src={image} alt={imageAlt} widths={[800, 1280, 1800, 2400]} sizes="100vw" class="phero__img" loading="eager" fetchpriority="high" />
+  <div class="phero__inner wrap">
+    {crumbs.length > 0 && (
+      <nav aria-label="Breadcrumb" class="crumbs">
+        <ol>
+          {crumbs.map((c, i) => (
+            <li>{i < crumbs.length - 1 ? <a href={c.path}>{c.name}</a> : <span aria-current="page">{c.name}</span>}</li>
+          ))}
+        </ol>
+      </nav>
+    )}
+    <p class="eyebrow">{eyebrow}</p>
+    <h1 class="display">{title}</h1>
+    {lead && <p class="phero__lead">{lead}</p>}
+    <slot />
+  </div>
+</section>
+
+<style>
+  .phero {
+    position: relative;
+    isolation: isolate;
+    min-height: clamp(34rem, 78svh, 50rem);
+    display: grid;
+    align-items: end;
+    color: var(--white);
+    overflow: hidden;
+  }
+  .phero :global(.phero__img) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -2;
+  }
+  .phero::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background:
+      linear-gradient(0deg, rgb(10 18 30 / 0.9) 0%, rgb(10 18 30 / 0.45) 55%, rgb(10 18 30 / 0.35) 100%),
+      linear-gradient(90deg, rgb(10 18 30 / 0.5) 0%, transparent 70%);
+  }
+  .phero__inner {
+    padding-top: 9rem;
+    padding-bottom: clamp(3rem, 6vw, 5rem);
+    display: grid;
+    gap: 1.3rem;
+    justify-items: start;
+  }
+  .phero h1 {
+    max-width: 16ch;
+  }
+  .phero__lead {
+    max-width: 48ch;
+    font-size: var(--step-1);
+    line-height: 1.55;
+    color: rgb(255 255 255 / 0.86);
+    margin: 0;
+  }
+  .crumbs ol {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    list-style: none;
+    margin: 0 0 0.5rem;
+    padding: 0;
+    font-size: 0.78rem;
+    color: rgb(255 255 255 / 0.7);
+  }
+  .crumbs li + li::before {
+    content: '/';
+    margin-right: 0.5rem;
+    opacity: 0.5;
+  }
+  .crumbs a {
+    text-decoration: none;
+  }
+  .crumbs a:hover {
+    text-decoration: underline;
+  }
+</style>

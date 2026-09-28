@@ -1,0 +1,106 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { site, categories } from '../data/site';
+import { breadcrumbSchema } from '../lib/schema';
+import hero from '../assets/photos/dining-room-setup.jpg';
+const crumbs = [
+  { name: 'Home', path: '/' },
+  { name: 'Service Area', path: '/service-area/' },
+];
+---
+<Base
+  title="Catering Service Area: McKinney, Frisco, Allen, Plano & DFW | BabyBlue"
+  description="BabyBlue Modern Catering is based in McKinney, TX and serves Frisco, Allen, Plano, Prosper, Celina and the Dallas–Fort Worth area with in-home catering and private chefs."
+  image={hero}
+  overlayHeader
+  schema={[breadcrumbSchema(crumbs)]}
+>
+  <PageHero
+    eyebrow="Where we cook"
+    title={`Proudly based in ${site.city}, Texas.`}
+    lead="We cater homes, venues and offices throughout Collin County and the greater Dallas–Fort Worth area, and our private chefs travel anywhere in the U.S."
+    image={hero}
+    imageAlt="A dining room elegantly set for a catered dinner"
+    crumbs={crumbs}
+  />
+  <section class="section">
+    <div class="wrap area">
+      <div>
+        <p class="eyebrow">Cities we serve</p>
+        <h2 class="h2">Catering &amp; private chefs near you</h2>
+        <p class="lead">Not sure if we come to you? We almost certainly do. Ask about your location when you inquire.</p>
+      </div>
+      <ul class="cities">
+        {site.serviceArea.map((c) => <li><span>{c}</span>, {site.region}</li>)}
+      </ul>
+    </div>
+  </section>
+  <section class="section section--white">
+    <div class="wrap">
+      <div class="section-head"><p class="eyebrow">Available everywhere we serve</p><h2 class="h2">Our experiences</h2></div>
+      <div class="area-cats">
+        {Object.values(categories).map((c) => (
+          <a href={c.href} class="area-cat">
+            <h3>{c.label}</h3>
+            <p>{c.blurb}</p>
+            <span class="link-arrow">Explore <span aria-hidden="true">→</span></span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+  <CtaBand />
+</Base>
+
+<style>
+  .area {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: clamp(2rem, 6vw, 6rem);
+    align-items: start;
+  }
+  .area > div { display: grid; gap: 1.2rem; }
+  .cities {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    columns: 2;
+    column-gap: 2rem;
+  }
+  .cities li {
+    padding: 0.9rem 0;
+    border-bottom: 1px solid var(--line);
+    color: var(--ink-soft);
+    break-inside: avoid;
+  }
+  .cities span {
+    font-family: var(--serif);
+    font-size: 1.5rem;
+    color: var(--ink);
+  }
+  .area-cats {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 2rem;
+  }
+  .area-cat {
+    display: grid;
+    gap: 0.8rem;
+    align-content: start;
+    justify-items: start;
+    text-decoration: none;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--ink);
+  }
+  .area-cat h3 { font-size: var(--step-2); }
+  .area-cat p { color: var(--ink-soft); margin: 0; font-size: 0.95rem; }
+  @media (max-width: 900px) {
+    .area { grid-template-columns: 1fr; }
+    .area-cats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  @media (max-width: 560px) {
+    .area-cats { grid-template-columns: 1fr; }
+  }
+</style>

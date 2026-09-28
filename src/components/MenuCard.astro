@@ -1,0 +1,98 @@
+---
+// A real past client menu, styled like a printed keepsake menu card.
+import type { CollectionEntry } from 'astro:content';
+interface Props { menu: CollectionEntry<'menus'> }
+const m = Astro.props.menu.data;
+---
+<article class="menu-card reveal">
+  <header class="menu-card__head">
+    <p class="menu-card__style">{m.style}</p>
+    <h3 class="menu-card__title">{m.title}</h3>
+    <p class="menu-card__hosts">Prepared for {m.hosts} · {m.guests} {m.guests === 1 ? 'guest' : 'guests'}</p>
+  </header>
+  {m.courses.map((course) => (
+    <section class="menu-card__course">
+      <h4>{course.name}</h4>
+      {course.items.map((item) => (
+        <p class="menu-card__item">
+          <span class="menu-card__name">{item.name}</span>
+          {item.description && <span class="menu-card__desc">{item.description}</span>}
+        </p>
+      ))}
+    </section>
+  ))}
+  {m.note && <p class="menu-card__note">{m.note}</p>}
+</article>
+
+<style>
+  .menu-card {
+    position: relative;
+    background: var(--white);
+    padding: clamp(2rem, 4vw, 3.2rem) clamp(1.5rem, 3.5vw, 2.8rem);
+    text-align: center;
+    box-shadow: 0 1px 0 var(--line), 0 30px 60px -40px rgb(15 27 45 / 0.35);
+  }
+  .menu-card::before {
+    content: '';
+    position: absolute;
+    inset: 0.7rem;
+    border: 1px solid var(--blue-soft);
+    pointer-events: none;
+  }
+  .menu-card__head {
+    padding-bottom: 1.5rem;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid var(--line);
+  }
+  .menu-card__style {
+    margin: 0 0 0.6rem;
+    font-size: 0.66rem;
+    font-weight: 700;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--blue-deep);
+  }
+  .menu-card__title {
+    font-size: var(--step-2);
+    font-style: italic;
+  }
+  .menu-card__hosts {
+    margin: 0.7rem 0 0;
+    font-size: 0.8rem;
+    color: var(--ink-soft);
+  }
+  .menu-card__course + .menu-card__course {
+    margin-top: 1.4rem;
+  }
+  .menu-card h4 {
+    font-family: var(--sans);
+    font-size: 0.64rem;
+    font-weight: 700;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-bottom: 0.6rem;
+  }
+  .menu-card__item {
+    margin: 0 auto 0.6rem;
+    max-width: 34ch;
+    display: grid;
+    gap: 0.1rem;
+    line-height: 1.45;
+  }
+  .menu-card__name {
+    font-family: var(--serif);
+    font-size: 1.22rem;
+    font-weight: 600;
+  }
+  .menu-card__desc {
+    font-size: 0.84rem;
+    color: var(--ink-soft);
+  }
+  .menu-card__note {
+    margin: 1.5rem 0 0;
+    font-family: var(--serif);
+    font-style: italic;
+    color: var(--ink-soft);
+  }
+</style>

@@ -1,0 +1,75 @@
+---
+import { beverages } from '../data/content';
+import { money } from '../lib/format';
+---
+<section class="section section--sand" aria-labelledby="bev">
+  <div class="wrap bev">
+    <div class="section-head">
+      <p class="eyebrow">Beverage service</p>
+      <h2 id="bev" class="h2">Raise a glass</h2>
+      <p class="muted">{beverages.intro}</p>
+    </div>
+    <div class="bev__grid">
+      {beverages.packages.map((p) => (
+        <div class="bev__pkg">
+          <h3>{p.name}</h3>
+          <p class="bev__price">From {money(p.price)} {p.unit}</p>
+          <ul class="check-list">{p.includes.map((i) => <li>{i}</li>)}</ul>
+        </div>
+      ))}
+      <div class="bev__pkg">
+        <h3>À la carte</h3>
+        <dl class="bev__extras">
+          {beverages.extras.map(([k, v]) => (
+            <div><dt>{k}</dt><dd>{v}</dd></div>
+          ))}
+        </dl>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .bev__grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(1.5rem, 3vw, 2.5rem);
+  }
+  .bev__pkg {
+    background: var(--white);
+    padding: 2rem;
+  }
+  .bev__pkg h3 {
+    font-size: var(--step-2);
+  }
+  .bev__price {
+    margin: 0.5rem 0 1rem;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--blue-deep);
+  }
+  .bev__pkg .check-list {
+    font-size: 0.92rem;
+  }
+  .bev__extras {
+    margin: 1rem 0 0;
+    font-size: 0.9rem;
+  }
+  .bev__extras div {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.7rem 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .bev__extras dd {
+    margin: 0;
+    white-space: nowrap;
+    font-weight: 600;
+  }
+  @media (max-width: 1000px) {
+    .bev__grid { grid-template-columns: 1fr; }
+  }
+</style>

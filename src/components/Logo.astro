@@ -1,0 +1,39 @@
+---
+// Typographic wordmark echoing the original BabyBlue logo. Inherits color.
+interface Props { class?: string }
+const { class: className } = Astro.props;
+---
+<span class:list={['logo', className]}>
+  <span class="logo__word">Baby<span class="logo__blue">Blue</span></span>{' '}
+  <span class="logo__sub">Modern Catering</span>
+</span>
+
+<style>
+  .logo {
+    display: inline-grid;
+    line-height: 1;
+    gap: 0.28rem;
+  }
+  .logo__word {
+    font-family: var(--serif);
+    font-size: 1.75rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .logo__blue {
+    color: var(--blue-deep);
+    transition: color 0.3s;
+  }
+  :global(.on-dark) .logo__blue {
+    color: var(--blue);
+  }
+  .logo__sub {
+    font-family: var(--sans);
+    font-size: 0.56rem;
+    font-weight: 700;
+    letter-spacing: 0.42em;
+    text-transform: uppercase;
+    padding-left: 0.1em;
+  }
+</style>

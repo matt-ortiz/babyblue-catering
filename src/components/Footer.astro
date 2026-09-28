@@ -1,0 +1,142 @@
+---
+import Logo from './Logo.astro';
+import { site, categories } from '../data/site';
+import { getCollection } from 'astro:content';
+const services = (await getCollection('services')).sort((a, b) => a.data.order - b.data.order);
+const year = new Date().getFullYear();
+const groups = Object.entries(categories).map(([key, c]) => ({
+  ...c,
+  items: services.filter((s) => s.data.category === key),
+}));
+---
+<footer class="site-footer section--ink on-dark">
+  <div class="wrap">
+    <div class="site-footer__top">
+      <div class="site-footer__brand">
+        <Logo />
+        <p class="site-footer__tag">{site.tagline}</p>
+        <address>
+          Serving {site.city}, {site.regionName} &amp; the Dallas–Fort Worth area<br />
+          <a href={`tel:${site.phoneE164}`}>{site.phone}</a><br />
+          <a href={`mailto:${site.email}`}>{site.email}</a>
+        </address>
+        <div class="site-footer__social">
+          <a href={site.social.instagram} rel="noopener" target="_blank">Instagram</a>
+          <a href={site.social.facebook} rel="noopener" target="_blank">Facebook</a>
+        </div>
+      </div>
+      <div class="site-footer__cols">
+        {groups.map((g) => (
+          <div>
+            <h2 class="site-footer__h"><a href={g.href}>{g.label}</a></h2>
+            <ul>
+              {g.items.map((s) => <li><a href={`/${s.id}/`}>{s.data.title}</a></li>)}
+            </ul>
+          </div>
+        ))}
+        <div>
+          <h2 class="site-footer__h">BabyBlue</h2>
+          <ul>
+            <li><a href="/about/">About Chef Jacob</a></li>
+            <li><a href="/service-area/">Service Area</a></li>
+            <li><a href="/faq/">FAQ</a></li>
+            <li><a href="/contact/">Contact</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="site-footer__bottom">
+      <p>© {year} {site.legalName}. All rights reserved.</p>
+      <p>Catering &amp; private chef services in {site.serviceArea.slice(0, 6).join(', ')} and beyond.</p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    padding-block: clamp(4rem, 8vw, 6.5rem) 2rem;
+    font-size: 0.92rem;
+  }
+  .site-footer a {
+    color: rgb(248 244 237 / 0.78);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .site-footer a:hover {
+    color: var(--white);
+  }
+  .site-footer__top {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 2.4fr);
+    gap: 4rem;
+  }
+  .site-footer__brand :global(.logo) {
+    color: var(--paper);
+  }
+  .site-footer__tag {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 1.35rem;
+    line-height: 1.3;
+    margin: 1.5rem 0;
+    color: var(--paper);
+  }
+  address {
+    font-style: normal;
+    color: rgb(248 244 237 / 0.7);
+    line-height: 1.9;
+  }
+  .site-footer__social {
+    display: flex;
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+  .site-footer__cols {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(10.5rem, 1fr));
+    gap: 2.5rem 2rem;
+  }
+  .site-footer__h {
+    font-family: var(--sans);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--blue);
+    margin-bottom: 1.1rem;
+  }
+  .site-footer__h a {
+    color: var(--blue);
+  }
+  .site-footer ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.55rem;
+  }
+  .site-footer__bottom {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: 4rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--line-light);
+    font-size: 0.78rem;
+    color: rgb(248 244 237 / 0.5);
+  }
+  .site-footer__bottom p {
+    margin: 0;
+  }
+  @media (max-width: 900px) {
+    .site-footer__top {
+      grid-template-columns: 1fr;
+      gap: 3rem;
+    }
+  }
+</style>

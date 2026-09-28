@@ -1,0 +1,72 @@
+---
+import { testimonials } from '../data/content';
+---
+<section class="section section--ink on-dark testimonials" aria-labelledby="kind-words">
+  <div class="wrap">
+    <div class="section-head section-head--center">
+      <p class="eyebrow">Kind words</p>
+      <h2 id="kind-words" class="h2">From our hosts</h2>
+    </div>
+    <div class="testimonials__grid">
+      {testimonials.map((t) => (
+        <figure class="quote reveal">
+          <span class="quote__mark" aria-hidden="true">“</span>
+          <blockquote>
+            <p>{t.quote}</p>
+          </blockquote>
+          <figcaption>
+            <span class="quote__author">{t.author}</span>
+            <span class="quote__context">{t.context}</span>
+          </figcaption>
+        </figure>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .testimonials__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 26rem), 1fr));
+    gap: clamp(2rem, 5vw, 5rem);
+  }
+  .quote {
+    margin: 0;
+    position: relative;
+    padding-top: 3.5rem;
+    border-top: 1px solid var(--line-light);
+  }
+  .quote__mark {
+    position: absolute;
+    top: -0.2rem;
+    left: 0;
+    font-family: var(--serif);
+    font-size: 5rem;
+    line-height: 1;
+    color: var(--blue);
+  }
+  blockquote {
+    margin: 0 0 1.8rem;
+  }
+  blockquote p {
+    font-family: var(--serif);
+    font-size: var(--step-1);
+    line-height: 1.5;
+    color: var(--paper);
+    margin: 0;
+  }
+  figcaption {
+    display: grid;
+    gap: 0.2rem;
+  }
+  .quote__author {
+    font-size: 0.74rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+  .quote__context {
+    font-size: 0.86rem;
+    color: rgb(248 244 237 / 0.6);
+  }
+</style>

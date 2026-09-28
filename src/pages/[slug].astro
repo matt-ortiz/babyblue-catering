@@ -1,0 +1,407 @@
+---
+import { Image, getImage } from 'astro:assets';
+import { getCollection, getEntries, render, type CollectionEntry } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import MenuCard from '../components/MenuCard.astro';
+import ServiceCard from '../components/ServiceCard.astro';
+import Beverages from '../components/Beverages.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { categories, fineprint, site } from '../data/site';
+import { money, priceLine, glance } from '../lib/format';
+import { serviceSchema, breadcrumbSchema, faqSchema } from '../lib/schema';
+
+export async function getStaticPaths() {
+  const services = await getCollection('services');
+  return services.map((service) => ({ params: { slug: service.id }, props: { service } }));
+}
+
+interface Props { service: CollectionEntry<'services'> }
+const { service } = Astro.props;
+const d = service.data;
+const { Content } = await render(service);
+const cat = categories[d.category];
+const menus = await getEntries(d.menus);
+const all = await getCollection('services');
+const related = d.related.map((id) => all.find((s) => s.id === id)).filter((s): s is CollectionEntry<'services'> => !!s);
+const path = `/${service.id}/`;
+const crumbs = [
+  { name: 'Home', path: '/' },
+  ...(d.category === 'corporate' ? [] : [{ name: cat.label, path: cat.href }]),
+  { name: d.title, path },
+];
+const heroImg = await getImage({ src: d.image, width: 1200, format: 'jpg' });
+
+const schema = [
+  serviceSchema({
+    name: `${d.title} — ${site.city}, ${site.region}`,
+    description: d.description,
+    path,
+    image: new URL(heroImg.src, Astro.site).href,
+    category: cat.label,
+    price: d.price,
+    menus: menus.map((m) => m.data),
+  }),
+  breadcrumbSchema(crumbs),
+  ...(d.faqs.length ? [faqSchema(d.faqs)] : []),
+];
+
+const g = glance(d.price);
+const guestNote = d.minimumGuests
+  ? `${d.minimumGuests}-guest minimum`
+  : d.maximumGuests === 2
+    ? 'For two'
+    : d.maximumGuests
+      ? `Up to ${d.maximumGuests} guests`
+      : null;
+---
+
+<Base title={d.seoTitle} description={d.description} image={d.image} imageAlt={d.imageAlt} overlayHeader schema={schema}>
+  <PageHero eyebrow={d.eyebrow} title={d.title} lead={d.lead} image={d.image} imageAlt={d.imageAlt} crumbs={crumbs}>
+    <div class="hero-meta">
+      <span>{priceLine(d.price)}</span>
+      {guestNote && <span>{guestNote}</span>}
+    </div>
+    <div class="btn-row">
+      <a class="btn btn--light" href={`/contact/?service=${service.id}`}>Request a proposal</a>
+      <a class="btn btn--ghost-light" href={`tel:${site.phoneE164}`}>Call {site.phone}</a>
+    </div>
+  </PageHero>
+
+  <!-- OVERVIEW -->
+  <section class="section">
+    <div class="wrap overview">
+      <div class="overview__body prose reveal">
+        <Content />
+        {d.occasions.length > 0 && (
+          <div class="occasions">
+            <h2 class="occasions__h">Perfect for</h2>
+            <ul class="chips">{d.occasions.map((o) => <li>{o}</li>)}</ul>
+          </div>
+        )}
+      </div>
+      <aside class="glance reveal" aria-label="At a glance">
+        <p class="eyebrow">At a glance</p>
+        <p class="glance__price">{g.big}</p>
+        {g.small && <p class="glance__unit">{g.small}</p>}
+        <dl>
+          {guestNote && <div><dt>Guests</dt><dd>{guestNote}</dd></div>}
+          <div><dt>Service area</dt><dd>{site.city} &amp; DFW</dd></div>
+          <div><dt>Menu</dt><dd>Custom-designed</dd></div>
+        </dl>
+        <a class="btn" href={`/contact/?service=${service.id}`}>Check your date</a>
+        <p class="glance__fine">{fineprint}{d.terms ? ` ${d.terms}` : ''}</p>
+      </aside>
+    </div>
+  </section>
+
+  {d.gallery.length > 0 && (
+    <section class="trio" aria-label={`${d.title} photos`}>
+      {d.gallery.map((g) => (
+        <div class="frame"><Image src={g.src} alt={g.alt} widths={[500, 800, 1100]} sizes="(max-width: 700px) 100vw, 33vw" class="cover-img" /></div>
+      ))}
+    </section>
+  )}
+
+  <!-- INCLUDED -->
+  {d.includes.length > 0 && (
+    <section class="section section--ink on-dark">
+      <div class="wrap included">
+        <div class="section-head">
+          <p class="eyebrow">The details</p>
+          <h2 class="h2">{d.includesTitle}</h2>
+          <p class="lead">Everything handled, from the first grocery run to the last dish dried.</p>
+        </div>
+        <ul class="check-list included__list">{d.includes.map((i) => <li>{i}</li>)}</ul>
+      </div>
+    </section>
+  )}
+
+  {d.tiers.length > 0 && (
+    <section class:list={['section', { 'section--white': d.includes.length > 0 }]}>
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow">{d.includes.length ? 'Choose your package' : 'The details'}</p>
+          <h2 class="h2">{d.includes.length ? 'Packages' : d.includesTitle}</h2>
+        </div>
+        <div class:list={['tiers', { 'tiers--many': d.tiers.length > 2 }]}>
+          {d.tiers.map((t) => (
+            <article class="tier reveal">
+              <h3>{t.name}</h3>
+              {t.price != null && <p class="tier__price">{money(t.price)} <span>{t.unit}</span></p>}
+              <p class="tier__summary">{t.summary}</p>
+              <ul class="check-list">{t.includes.map((i) => <li>{i}</li>)}</ul>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  {d.addOns.length > 0 && (
+    <section class="section section--white">
+      <div class="wrap">
+        {d.addOns.map((a) => (
+          <div class="addon reveal">
+            <div>
+              <p class="eyebrow">Add-on</p>
+              <h2 class="h2">{a.name}</h2>
+              {a.price != null && <p class="tier__price">{money(a.price)} <span>{a.unit}</span></p>}
+              <p class="lead">{a.summary}</p>
+            </div>
+            <ul class="check-list">{a.includes.map((i) => <li>{i}</li>)}</ul>
+          </div>
+        ))}
+      </div>
+    </section>
+  )}
+
+  {d.showBeverages && <Beverages />}
+
+  {menus.length > 0 && (
+    <section class="section section--sand">
+      <div class="wrap">
+        <div class="section-head section-head--center">
+          <p class="eyebrow">Real menus, real hosts</p>
+          <h2 class="h2">{menus.length > 1 ? 'Menus we’ve created' : 'A menu we created'}</h2>
+          <p class="muted">These are actual menus from past clients. Yours will be designed around you.</p>
+        </div>
+        <div class:list={['menus', `menus--${Math.min(menus.length, 3)}`]}>
+          {menus.map((m) => <MenuCard menu={m} />)}
+        </div>
+      </div>
+    </section>
+  )}
+
+  {d.faqs.length > 0 && (
+    <section class="section">
+      <div class="wrap--narrow">
+        <div class="section-head">
+          <p class="eyebrow">Questions</p>
+          <h2 class="h2">{d.title} FAQ</h2>
+        </div>
+        <div class="faq">
+          {d.faqs.map((f) => (
+            <details>
+              <summary>{f.q}</summary>
+              <p>{f.a}</p>
+            </details>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  {related.length > 0 && (
+    <section class="section section--white">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow">You may also love</p>
+          <h2 class="h2">More experiences</h2>
+        </div>
+        <div class="related">
+          {related.map((s) => <ServiceCard service={s} />)}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <CtaBand service={service.id} title={`Let’s plan your ${d.title.toLowerCase()}.`} />
+</Base>
+
+<style>
+  .hero-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin: 0.3rem 0 0.6rem;
+  }
+  .hero-meta span {
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--line-light);
+    border-radius: 999px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    background: rgb(255 255 255 / 0.08);
+    backdrop-filter: blur(6px);
+  }
+
+  .overview {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 22rem);
+    gap: clamp(3rem, 8vw, 8rem);
+    align-items: start;
+  }
+  .prose :global(p) {
+    font-size: var(--step-1);
+    line-height: 1.65;
+    color: var(--ink-soft);
+    max-width: 58ch;
+  }
+  .prose :global(p:first-child) {
+    font-family: var(--serif);
+    font-size: var(--step-2);
+    line-height: 1.35;
+    color: var(--ink);
+  }
+  .occasions {
+    margin-top: 2.5rem;
+  }
+  .occasions__h {
+    font-family: var(--sans);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-bottom: 1rem;
+  }
+
+  .glance {
+    position: sticky;
+    top: 7rem;
+    background: var(--white);
+    padding: 2.2rem;
+    display: grid;
+    gap: 0.4rem;
+    box-shadow: 0 30px 60px -45px rgb(15 27 45 / 0.4);
+    border-top: 3px solid var(--blue);
+  }
+  .glance__price {
+    margin: 0.8rem 0 0;
+    font-family: var(--serif);
+    font-size: var(--step-4);
+    line-height: 1;
+  }
+  .glance__unit {
+    margin: 0 0 1rem;
+    color: var(--ink-soft);
+    font-size: 0.92rem;
+  }
+  .glance dl {
+    margin: 0 0 1.4rem;
+    font-size: 0.9rem;
+  }
+  .glance dl div {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.7rem 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .glance dt {
+    color: var(--ink-soft);
+  }
+  .glance dd {
+    margin: 0;
+    font-weight: 600;
+    text-align: right;
+  }
+  .glance__fine {
+    margin: 1rem 0 0;
+    font-size: 0.76rem;
+    line-height: 1.55;
+    color: var(--ink-soft);
+  }
+
+  .trio {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr 1fr;
+    gap: 4px;
+  }
+  .trio .frame {
+    height: clamp(16rem, 26vw, 28rem);
+  }
+
+  .included {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr);
+    gap: clamp(2rem, 6vw, 6rem);
+    align-items: start;
+  }
+  .included__list {
+    columns: 2;
+    column-gap: 2.5rem;
+    display: block;
+  }
+  .included__list li {
+    break-inside: avoid;
+  }
+
+  .tiers {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(1.5rem, 3vw, 2.5rem);
+  }
+  .tiers--many {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .tier {
+    background: var(--paper);
+    padding: clamp(1.8rem, 3vw, 2.6rem);
+    border-top: 3px solid var(--ink);
+  }
+  .section:not(.section--white) .tier {
+    background: var(--white);
+  }
+  .tier h3 {
+    font-size: var(--step-2);
+  }
+  .tier__price {
+    margin: 0.8rem 0;
+    font-family: var(--serif);
+    font-size: var(--step-3);
+    line-height: 1;
+  }
+  .tier__price span {
+    font-family: var(--sans);
+    font-size: 0.8rem;
+    color: var(--ink-soft);
+  }
+  .tier__summary {
+    color: var(--ink-soft);
+  }
+
+  .addon {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+    gap: clamp(2rem, 6vw, 6rem);
+    align-items: start;
+  }
+  .addon > div {
+    display: grid;
+    gap: 0.6rem;
+  }
+
+  .menus {
+    display: grid;
+    gap: clamp(1.5rem, 3vw, 2.5rem);
+    align-items: start;
+    margin-inline: auto;
+  }
+  .menus--1 { max-width: 34rem; }
+  .menus--2 { grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: 68rem; }
+  .menus--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+  .related {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(1.2rem, 2.5vw, 2.2rem);
+  }
+
+  @media (max-width: 1000px) {
+    .overview, .included, .addon { grid-template-columns: 1fr; }
+    .glance { position: static; }
+    .tiers--many, .menus--3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .related { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .related > :global(:nth-child(3)) { display: none; }
+  }
+  @media (max-width: 700px) {
+    .trio { grid-template-columns: 1fr; }
+    .trio .frame:not(:first-child) { display: none; }
+    .included__list { columns: 1; }
+    .tiers, .tiers--many, .menus--2, .menus--3, .related { grid-template-columns: 1fr; }
+    .related > :global(:nth-child(3)) { display: block; }
+  }
+</style>

@@ -1,0 +1,88 @@
+---
+// Private working page for the photographer. Not linked, not indexed, not in the sitemap.
+import Base from '../layouts/Base.astro';
+import PhotoSlot from '../components/PhotoSlot.astro';
+import { photoBriefs, photoSpecs, type PhotoBriefKey } from '../data/photos';
+const briefs = Object.entries(photoBriefs) as [PhotoBriefKey, (typeof photoBriefs)[PhotoBriefKey]][];
+---
+<Base title="Photo Shot List | BabyBlue Modern Catering" description="Photography brief for the new BabyBlue website." noindex>
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">For the photographer</p>
+        <h1 class="display">Photo shot list</h1>
+        <p class="lead">The photos we'd love before launch. Each one replaces an older image, or fills an empty spot, on the new site.</p>
+      </div>
+
+      <ul class="specs">
+        {photoSpecs.map((s) => <li>{s}</li>)}
+      </ul>
+
+      <ol class="shots">
+        {briefs.map(([key, b], i) => (
+          <li class="shot">
+            <PhotoSlot brief={key} compact class:list={['shot__ph', `shot__ph--${b.orientation.split(' ')[0].toLowerCase()}`]} />
+            <div class="shot__body">
+              <p class="shot__n">Shot {String(i + 1).padStart(2, '0')} · {b.orientation}</p>
+              <h2 class="h3">{b.title}</h2>
+              <p class="shot__shot">{b.shot}</p>
+              <ul class="check-list">{b.notes.map((n) => <li>{n}</li>)}</ul>
+              <p class="small muted">Used on: {b.usedOn.join(' · ')}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .specs {
+    list-style: none;
+    padding: 1.5rem 2rem;
+    margin: 0 0 clamp(3rem, 6vw, 5rem);
+    background: var(--white);
+    border-left: 3px solid var(--blue);
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.6rem 2rem;
+    font-size: 0.92rem;
+  }
+  .shots {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: clamp(3rem, 6vw, 5rem);
+  }
+  .shot {
+    display: grid;
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    gap: clamp(2rem, 5vw, 4rem);
+    align-items: center;
+  }
+  .shot :global(.shot__ph) { width: 100%; }
+  .shot :global(.shot__ph--vertical) { aspect-ratio: 4 / 5; max-width: 26rem; }
+  .shot :global(.shot__ph--horizontal) { aspect-ratio: 3 / 2; }
+  .shot :global(.shot__ph--square) { aspect-ratio: 1; max-width: 30rem; }
+  .shot__body {
+    display: grid;
+    gap: 0.8rem;
+  }
+  .shot__n {
+    margin: 0;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--blue-deep);
+  }
+  .shot__shot {
+    font-size: var(--step-1);
+    color: var(--ink-soft);
+    margin: 0;
+  }
+  @media (max-width: 800px) {
+    .shot, .specs { grid-template-columns: 1fr; }
+  }
+</style>

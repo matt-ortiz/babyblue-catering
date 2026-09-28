@@ -1,0 +1,77 @@
+---
+import { Image } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+import { priceLine } from '../lib/format';
+interface Props {
+  service: CollectionEntry<'services'>;
+  size?: 'default' | 'large';
+}
+const { service, size = 'default' } = Astro.props;
+const d = service.data;
+---
+<article class:list={['card', `card--${size}`, 'reveal']}>
+  <a href={`/${service.id}/`} class="card__link">
+    <div class="card__media frame">
+      <Image
+        src={d.image}
+        alt={d.imageAlt}
+        widths={[480, 720, 960]}
+        sizes="(max-width: 700px) 100vw, (max-width: 1100px) 50vw, 33vw"
+        class="cover-img"
+      />
+    </div>
+    <div class="card__body">
+      <p class="card__price">{priceLine(d.price)}</p>
+      <h3 class="card__title">{d.title}</h3>
+      <p class="card__blurb">{d.cardBlurb}</p>
+      <span class="link-arrow">Explore <span aria-hidden="true">→</span></span>
+    </div>
+  </a>
+</article>
+
+<style>
+  .card__link {
+    display: grid;
+    gap: 1.4rem;
+    text-decoration: none;
+    color: inherit;
+    height: 100%;
+    grid-template-rows: auto 1fr;
+  }
+  .card__media {
+    aspect-ratio: 4 / 5;
+  }
+  .card--large .card__media {
+    aspect-ratio: 5 / 4;
+  }
+  .card__media :global(img) {
+    transition: transform 1.2s var(--ease);
+  }
+  .card__link:hover .card__media :global(img) {
+    transform: scale(1.04);
+  }
+  .card__body {
+    display: grid;
+    gap: 0.6rem;
+    align-content: start;
+  }
+  .card__price {
+    margin: 0;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--blue-deep);
+  }
+  .card__title {
+    font-size: var(--step-2);
+  }
+  .card__blurb {
+    margin: 0 0 0.6rem;
+    color: var(--ink-soft);
+    font-size: 0.96rem;
+  }
+  .card .link-arrow {
+    justify-self: start;
+  }
+</style>

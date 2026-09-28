@@ -1,0 +1,92 @@
+---
+import type { ImageMetadata } from 'astro';
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import PageHero from './PageHero.astro';
+import ServiceCard from './ServiceCard.astro';
+import Testimonials from './Testimonials.astro';
+import CtaBand from './CtaBand.astro';
+import { categories, type CategoryKey } from '../data/site';
+import { breadcrumbSchema } from '../lib/schema';
+
+interface Props {
+  category: CategoryKey;
+  seoTitle: string;
+  description: string;
+  eyebrow: string;
+  title: string;
+  lead: string;
+  image: ImageMetadata;
+  imageAlt: string;
+  introTitle: string;
+}
+const p = Astro.props;
+const cat = categories[p.category];
+const services = (await getCollection('services'))
+  .filter((s) => s.data.category === p.category)
+  .sort((a, b) => a.data.order - b.data.order);
+const crumbs = [
+  { name: 'Home', path: '/' },
+  { name: cat.label, path: cat.href },
+];
+const itemList = {
+  '@type': 'ItemList',
+  name: cat.label,
+  itemListElement: services.map((s, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    url: new URL(`/${s.id}/`, Astro.site).href,
+    name: s.data.title,
+  })),
+};
+---
+<Base title={p.seoTitle} description={p.description} image={p.image} imageAlt={p.imageAlt} overlayHeader schema={[breadcrumbSchema(crumbs), itemList]}>
+  <PageHero eyebrow={p.eyebrow} title={p.title} lead={p.lead} image={p.image} imageAlt={p.imageAlt} crumbs={crumbs}>
+    <div class="btn-row">
+      <a class="btn btn--light" href="/contact/">Plan your event</a>
+    </div>
+  </PageHero>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="hub-intro reveal">
+        <h2 class="h2">{p.introTitle}</h2>
+        <div class="hub-intro__body"><slot /></div>
+      </div>
+      <div class="hub-grid">
+        {services.map((s) => <ServiceCard service={s} />)}
+      </div>
+    </div>
+  </section>
+
+  <Testimonials />
+  <CtaBand />
+</Base>
+
+<style>
+  .hub-intro {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr);
+    gap: clamp(2rem, 6vw, 6rem);
+    margin-bottom: clamp(3rem, 6vw, 5rem);
+    padding-bottom: clamp(3rem, 6vw, 5rem);
+    border-bottom: 1px solid var(--line);
+  }
+  .hub-intro__body :global(p) {
+    font-size: var(--step-1);
+    line-height: 1.65;
+    color: var(--ink-soft);
+  }
+  .hub-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(2.5rem, 4vw, 3.5rem) clamp(1.2rem, 2.5vw, 2.2rem);
+  }
+  @media (max-width: 1000px) {
+    .hub-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .hub-intro { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 640px) {
+    .hub-grid { grid-template-columns: 1fr; }
+  }
+</style>

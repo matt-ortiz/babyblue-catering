@@ -1,0 +1,117 @@
+---
+// Posts straight to Formspark — no backend needed on GitHub Pages.
+// Docs: https://documentation.formspark.io
+import { getCollection } from 'astro:content';
+import { site, categories } from '../data/site';
+
+const services = (await getCollection('services')).sort((a, b) => a.data.order - b.data.order);
+const groups = Object.entries(categories).map(([key, c]) => ({
+  label: c.label,
+  items: services.filter((s) => s.data.category === key),
+}));
+const action = `https://submit-form.com/${site.formsparkId}`;
+const redirect = new URL('/thank-you/', site.url).href;
+---
+<form class="inquiry" action={action} method="POST" data-inquiry>
+  <input type="hidden" name="_redirect" value={redirect} />
+  <input type="hidden" name="_append" value="false" />
+  <input type="hidden" name="_email.subject" value="New event inquiry from babybluecatering.com" />
+  <input type="checkbox" name="_honeypot" class="visually-hidden" tabindex="-1" autocomplete="off" aria-hidden="true" />
+
+  <div class="inquiry__grid">
+    <div class="field">
+      <label for="f-name">Your name</label>
+      <input id="f-name" name="name" type="text" autocomplete="name" required />
+    </div>
+    <div class="field">
+      <label for="f-email">Email</label>
+      <input id="f-email" name="email" type="email" autocomplete="email" required />
+    </div>
+    <div class="field">
+      <label for="f-phone">Phone</label>
+      <input id="f-phone" name="phone" type="tel" autocomplete="tel" required />
+    </div>
+    <div class="field">
+      <label for="f-service">I'm interested in</label>
+      <select id="f-service" name="service" required>
+        <option value="">Choose an experience…</option>
+        {groups.map((g) => (
+          <optgroup label={g.label}>
+            {g.items.map((s) => <option value={s.id}>{s.data.title}</option>)}
+          </optgroup>
+        ))}
+        <optgroup label="Other">
+          <option value="gift-certificate">Gift certificate</option>
+          <option value="not-sure">Not sure yet — help me choose</option>
+        </optgroup>
+      </select>
+    </div>
+    <div class="field">
+      <label for="f-date">Event date</label>
+      <input id="f-date" name="event_date" type="date" />
+    </div>
+    <div class="field">
+      <label for="f-guests">Number of guests</label>
+      <input id="f-guests" name="guests" type="number" min="1" inputmode="numeric" />
+    </div>
+    <div class="field">
+      <label for="f-city">Event city</label>
+      <input id="f-city" name="city" type="text" placeholder="McKinney, Frisco, Allen…" />
+    </div>
+    <div class="field">
+      <label for="f-source">How did you hear about us?</label>
+      <select id="f-source" name="referral">
+        <option value="">Select…</option>
+        <option>Google search</option>
+        <option>Instagram</option>
+        <option>Facebook</option>
+        <option>Friend or family</option>
+        <option>Attended a BabyBlue event</option>
+        <option>Venue or planner</option>
+        <option>Other</option>
+      </select>
+    </div>
+    <div class="field field--full">
+      <label for="f-message">Tell us about your event</label>
+      <textarea id="f-message" name="message" placeholder="The occasion, the vibe, favorite foods, dietary needs…"></textarea>
+    </div>
+  </div>
+  <div class="inquiry__foot">
+    <button class="btn" type="submit">Send inquiry</button>
+    <p class="small muted">Prefer to talk? Call <a href={`tel:${site.phoneE164}`}>{site.phone}</a>.</p>
+  </div>
+</form>
+
+<script>
+  // Preselect the experience when arriving from a service page (?service=slug).
+  const form = document.querySelector<HTMLFormElement>('[data-inquiry]');
+  const wanted = new URLSearchParams(location.search).get('service');
+  const select = form?.querySelector<HTMLSelectElement>('select[name="service"]');
+  if (select && wanted && [...select.options].some((o) => o.value === wanted)) select.value = wanted;
+</script>
+
+<style>
+  .inquiry__grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.4rem 1.2rem;
+  }
+  .field--full {
+    grid-column: 1 / -1;
+  }
+  .inquiry__foot {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1.2rem 2rem;
+    margin-top: 2rem;
+  }
+  .inquiry__foot p {
+    margin: 0;
+  }
+  @media (max-width: 640px) {
+    .inquiry__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

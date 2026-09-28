@@ -1,0 +1,224 @@
+[
+  {
+    "id": "dennis-and-jeri",
+    "title": "An Evening of East Meets West",
+    "hosts": "Dennis & Jeri",
+    "style": "Four-Course Dinner Party",
+    "guests": 8,
+    "courses": [
+      { "name": "Appetizer", "items": [{ "name": "Chef's Sushi Selection", "description": "Wild-caught salmon and the season's freshest fruits and vegetables, rolled and plated to order." }] },
+      { "name": "Soup & Salad", "items": [{ "name": "Miso & Scallop Soup", "description": "Paired with organic mixed greens, cucumber, dried cranberries, Gorgonzola and ciabatta, dressed in raspberry balsamic vinaigrette." }] },
+      { "name": "Entrée", "items": [
+        { "name": "Pan-Roasted Glazed Filet of Beef", "description": "With herb gremolata." },
+        { "name": "Cedar-Plank Salmon", "description": "Basted with a sweet glaze." },
+        { "name": "Garlic & Sea Salt Asparagus", "description": "With whipped garlic red potatoes." }
+      ] },
+      { "name": "Dessert", "items": [{ "name": "BabyBlue Bananas Foster", "description": "Flambéed tableside with brown sugar, rum and banana liqueur over vanilla ice cream, finished with bourbon whipped cream." }] }
+    ]
+  },
+  {
+    "id": "fitzgerald-family",
+    "title": "Family Celebration Dinner",
+    "hosts": "The Fitzgerald Family",
+    "style": "Four-Course Dinner Party",
+    "guests": 8,
+    "courses": [
+      { "name": "Appetizer", "items": [{ "name": "Chef's Sushi Selection", "description": "Wild-caught salmon with fresh fruits and vegetables, rolled and plated for the table." }] },
+      { "name": "Soup & Salad", "items": [{ "name": "Miso & Scallop Soup", "description": "With organic mixed greens, Gorgonzola and raspberry balsamic vinaigrette." }] },
+      { "name": "Entrée", "items": [
+        { "name": "Pan-Roasted Glazed Filet of Beef", "description": "With herb gremolata." },
+        { "name": "Cedar-Plank Salmon", "description": "With a sweet glaze." }
+      ] },
+      { "name": "Dessert", "items": [{ "name": "BabyBlue Bananas Foster", "description": "Prepared tableside." }] }
+    ]
+  },
+  {
+    "id": "scott-and-emma",
+    "title": "Sushi Night at Home",
+    "hosts": "Scott & Emma",
+    "style": "In-Home Sushi Party",
+    "guests": 10,
+    "courses": [
+      { "name": "Intermezzo", "items": [{ "name": "BabyBlue Sorbet", "description": "A bright sorbet to cleanse the palate." }] },
+      { "name": "First Course", "items": [{ "name": "Alaskan Salmon Tower", "description": "Mango, avocado, tomato, wild Alaskan salmon and fresh sushi rice with house sauces and toasted sesame. Guests build their own." }] },
+      { "name": "Second Course", "items": [{ "name": "Miso Soup & Spinach Enoki Salad", "description": "With wasabi vinaigrette." }] },
+      { "name": "Sushi", "items": [
+        { "name": "Uramaki Rolls", "description": "Wild Alaskan salmon and blue crab, rolled live." },
+        { "name": "Nigiri" }
+      ] },
+      { "name": "Dessert", "items": [{ "name": "Brownie Tower with Peanut Butter Cream", "description": "Layered brownie, peanut butter cream, chocolate ganache and white chocolate shavings." }] }
+    ]
+  },
+  {
+    "id": "john-and-joanna",
+    "title": "A Romantic Dinner for Two",
+    "hosts": "John & Joanna",
+    "style": "Romantic Dinner for Two",
+    "guests": 2,
+    "courses": [
+      { "name": "Appetizer", "items": [{ "name": "Oysters on the Half Shell", "description": "Topped with vodka-honeydew melon and roe." }] },
+      { "name": "Entrée", "items": [{ "name": "Stuffed Lobster", "description": "With a Champagne-tossed mixed green salad." }] },
+      { "name": "Dessert", "items": [{ "name": "Chocolate Soufflé", "description": "With crème anglaise." }] }
+    ]
+  },
+  {
+    "id": "robert-and-kristie",
+    "title": "Anniversary Tasting",
+    "hosts": "Robert & Kristie",
+    "style": "Romantic Dinner for Two",
+    "guests": 2,
+    "courses": [
+      { "name": "First", "items": [{ "name": "Pan-Seared Scallops", "description": "Creamy carrot purée, pomegranate and marjoram oil." }] },
+      { "name": "Second", "items": [{ "name": "Arugula & Spinach Salad", "description": "Raspberry vinaigrette, served with lobster bisque." }] },
+      { "name": "Third", "items": [
+        { "name": "Rice-Crusted Salmon", "description": "Citrus sauce and asparagus." },
+        { "name": "Pan-Roasted Filet of Beef", "description": "Herb gremolata." }
+      ] },
+      { "name": "Fourth", "items": [{ "name": "Chocolate Brownie Tower", "description": "Peanut butter cream dipped in chocolate ganache." }] }
+    ]
+  },
+  {
+    "id": "justin-and-adaline",
+    "title": "A Sweet Soirée",
+    "hosts": "Justin & Adaline",
+    "style": "Dessert Party",
+    "guests": 180,
+    "courses": [
+      { "name": "Desserts", "items": [
+        { "name": "Candied Pecan Cheesecake Tart", "description": "Brown sugar crust, caramelized pecans, cinnamon, clove and allspice, with fresh whipped cream." },
+        { "name": "Chocolate Stout Brownies", "description": "Laced with organic chocolate stout, finished with white chocolate pretzel mousse." },
+        { "name": "Roasted Figs", "description": "Stuffed with Gorgonzola and drizzled with local honey." },
+        { "name": "Key Lime Mousse Tart", "description": "Finished with whipped cream and fresh lime." }
+      ] },
+      { "name": "Hors d'Oeuvres", "items": [
+        { "name": "Bacon-Wrapped Scallops", "description": "Garlic and shallots." },
+        { "name": "Ahi Tuna Crostini", "description": "Garlic-rosemary crostini with a dollop of wasabi." }
+      ] },
+      { "name": "Pairing Suggestions", "items": [{ "name": "Vintage Port, Tokaji & Orange Muscat" }] }
+    ]
+  },
+  {
+    "id": "smith-party",
+    "title": "Dinner, Ready When You Are",
+    "hosts": "The Smith Party",
+    "style": "Invisible Chef Service",
+    "guests": 15,
+    "courses": [
+      { "name": "Appetizer", "items": [{ "name": "Grilled Bacon-Wrapped Shrimp", "description": "Stuffed with fresh basil and garlic." }] },
+      { "name": "Soup & Salad", "items": [{ "name": "Creamy Onion Soup", "description": "With a fresh mixed green salad." }] },
+      { "name": "Entrée", "items": [
+        { "name": "Roasted Stuffed Chicken", "description": "Cannellini beans, chorizo and lemon." },
+        { "name": "Blanched Asparagus", "description": "With rosemary-garlic red potatoes." }
+      ] },
+      { "name": "Dessert", "items": [{ "name": "BabyBlue Bananas Foster" }] }
+    ]
+  },
+  {
+    "id": "jeff-and-janet",
+    "title": "Wedding Warming Celebration",
+    "hosts": "Jeff & Janet",
+    "style": "BabyBlue Classic",
+    "guests": 55,
+    "courses": [
+      { "name": "Gourmet Cheese Display", "items": [{ "name": "Organic Aged White Cheddar, Seasonal Brie & Gorgonzola", "description": "Glazed nuts, cranberries, fruit, jams, honey and mustard, with rustic bread and crackers." }] },
+      { "name": "Signature Dip", "items": [{ "name": "Salsa Fresca", "description": "With toasted baguette." }] },
+      { "name": "Hors d'Oeuvres", "items": [
+        { "name": "Lobster Bisque Shooters" },
+        { "name": "Organic Chicken & Vegetable Skewers", "description": "With mango chutney." },
+        { "name": "Bacon-Wrapped Shrimp", "description": "Stuffed with fresh basil and garlic." }
+      ] },
+      { "name": "Dessert", "items": [
+        { "name": "Chocolate Brownie Peanut Butter Tower" },
+        { "name": "Dulce de Leche Brownie", "description": "Espresso cream, dark chocolate truffle and candied hazelnuts." }
+      ] }
+    ]
+  },
+  {
+    "id": "jack-and-pam",
+    "title": "Garden Party with Live Sushi",
+    "hosts": "Jack & Pam",
+    "style": "BabyBlue Interactive",
+    "guests": 90,
+    "courses": [
+      { "name": "Gourmet Cheese Display", "items": [{ "name": "Aged White Cheddar, Seasonal Brie & Gorgonzola" }] },
+      { "name": "Signature Dip", "items": [{ "name": "Salsa Fresca", "description": "With toasted baguette." }] },
+      { "name": "Hors d'Oeuvres", "items": [
+        { "name": "Organic Chicken & Vegetable Skewers", "description": "With mango chutney." },
+        { "name": "Bacon-Wrapped Shrimp", "description": "Stuffed with fresh basil and garlic." }
+      ] },
+      { "name": "Interactive Sushi Bar", "items": [
+        { "name": "Vegetable Roll", "description": "Red bell pepper, mushroom, apple, cucumber and scallion." },
+        { "name": "Salmon Roll", "description": "Cucumber, avocado and scallion." }
+      ] },
+      { "name": "Dessert", "items": [
+        { "name": "Chocolate Brownies" },
+        { "name": "Almond Biscotti with Strawberry" },
+        { "name": "Dulce de Leche Brownie" }
+      ] }
+    ],
+    "note": "With live music by The Cowardly Lions."
+  },
+  {
+    "id": "brian-and-kate",
+    "title": "Wedding Reception Buffet",
+    "hosts": "Brian & Kate",
+    "style": "Elegant Buffet",
+    "guests": 125,
+    "courses": [
+      { "name": "Entrées", "items": [
+        { "name": "Chicken Cordon Bleu" },
+        { "name": "Seared Salmon", "description": "Orange butter cream sauce." }
+      ] },
+      { "name": "Vegetables", "items": [{ "name": "Broccolini & Carrots" }, { "name": "Haricots Verts" }] },
+      { "name": "Starch", "items": [{ "name": "Roasted Red Potatoes", "description": "Garlic and rosemary." }] },
+      { "name": "Dessert", "items": [
+        { "name": "Chocolate Crème Brûlée" },
+        { "name": "Dulce de Leche Brownie" }
+      ] }
+    ]
+  },
+  {
+    "id": "sashi-and-monica",
+    "title": "Reception Buffet",
+    "hosts": "Sashi & Monica",
+    "style": "Elegant Buffet",
+    "guests": 80,
+    "courses": [
+      { "name": "Entrées", "items": [{ "name": "Beef Tenderloin", "description": "Cabernet sauce." }, { "name": "Grilled Salmon" }] },
+      { "name": "Vegetables", "items": [{ "name": "Asparagus" }, { "name": "Seasonal Squash" }] },
+      { "name": "Starch", "items": [{ "name": "Whipped Garlic Potatoes" }] },
+      { "name": "Dessert", "items": [{ "name": "Lemon Tart" }, { "name": "Chocolate Cheesecake" }] }
+    ]
+  },
+  {
+    "id": "jon-and-eliana",
+    "title": "Autumn Wedding Buffet",
+    "hosts": "Jon & Eliana",
+    "style": "Elegant Buffet",
+    "guests": 50,
+    "courses": [
+      { "name": "Entrées", "items": [
+        { "name": "Grilled Sirloin", "description": "Marchand de vin sauce." },
+        { "name": "Seared Salmon", "description": "Orange butter cream sauce." }
+      ] },
+      { "name": "Vegetables", "items": [{ "name": "Vegetable Julienne" }, { "name": "Oven-Roasted Tomatoes" }] },
+      { "name": "Starch", "items": [{ "name": "Duchess Potatoes" }] },
+      { "name": "Dessert", "items": [{ "name": "Blackberry & Port-Poached Pears", "description": "Ricotta cream and sablé cookies." }] }
+    ]
+  },
+  {
+    "id": "dan-and-dawn",
+    "title": "Family-Style Supper",
+    "hosts": "Dan & Dawn",
+    "style": "Family-Style",
+    "guests": 35,
+    "courses": [
+      { "name": "Seasonal Salad", "items": [{ "name": "Pear & Walnut Salad", "description": "With blue cheese." }] },
+      { "name": "Entrées", "items": [
+        { "name": "Beef Tenderloin", "description": "Balsamic glaze." },
+        { "name": "Chicken Breast", "description": "Sun-dried tomato Merlot sauce." }
+      ] },
+      { "name": "Sides", "items": [{ "name": "Fresh Herb Fingerling Potatoes" }, { "name": "Green Beans Amandine" }, { "name": "Basil Wild Rice" }] }
+    ]
+  }
+]

@@ -1,0 +1,36 @@
+---
+import Base from '../layouts/Base.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { faqs } from '../data/content';
+import { fineprint } from '../data/site';
+import { faqSchema, breadcrumbSchema } from '../lib/schema';
+const crumbs = [
+  { name: 'Home', path: '/' },
+  { name: 'FAQ', path: '/faq/' },
+];
+---
+<Base
+  title="Catering FAQ | BabyBlue Modern Catering, McKinney TX"
+  description="Answers about BabyBlue's catering and private chef services in McKinney & DFW: service area, booking, dietary needs, alcohol, pricing, gratuity and more."
+  schema={[faqSchema(faqs), breadcrumbSchema(crumbs)]}
+>
+  <section class="section">
+    <div class="wrap--narrow">
+      <div class="section-head">
+        <p class="eyebrow">Frequently asked</p>
+        <h1 class="display">Good questions.</h1>
+        <p class="lead">Everything you need to know before we cook for you. If something's missing, just ask.</p>
+      </div>
+      <div class="faq">
+        {faqs.map((f) => (
+          <details>
+            <summary>{f.q}</summary>
+            <p>{f.a}</p>
+          </details>
+        ))}
+      </div>
+      <p class="small muted" style="margin-top:2rem">{fineprint}</p>
+    </div>
+  </section>
+  <CtaBand />
+</Base>
