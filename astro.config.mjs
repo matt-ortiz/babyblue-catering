@@ -33,12 +33,20 @@ const redirects = {
   '/jeff-and-janets-babyblue-classic-menu': '/hors-d-oeuvre-party/',
 };
 
+// SITE_URL / BASE_PATH let the same code build for the github.io preview
+// (https://matt-ortiz.github.io + /babyblue-catering) and for production
+// (https://babybluecatering.com + /). Defaults are production.
+const site = process.env.SITE_URL || 'https://babybluecatering.com';
+const base = process.env.BASE_PATH || '/';
+const withBase = (path) => base.replace(/\/$/, '') + path;
+
 export default defineConfig({
-  site: 'https://babybluecatering.com',
+  site,
+  base,
   trailingSlash: 'always',
   // Avoid clashing with other local Astro projects on the default 4321.
   server: { port: 4400 },
-  redirects,
+  redirects: Object.fromEntries(Object.entries(redirects).map(([from, to]) => [from, withBase(to)])),
   build: {
     // Small site — inlining CSS removes the render-blocking stylesheet request.
     inlineStylesheets: 'always',

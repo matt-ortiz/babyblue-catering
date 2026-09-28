@@ -1,4 +1,5 @@
 ---
+import { href } from '../lib/url';
 import CategoryPage from '../components/CategoryPage.astro';
 import img from '../assets/photos/dinner-party-guests.jpg';
 ---
@@ -14,5 +15,5 @@ import img from '../assets/photos/dinner-party-guests.jpg';
   introTitle="High-end catering, without leaving home."
 >
   <p>Whether it's a sushi party with friends, a bridal shower, or an intimate dinner with your family, BabyBlue's in-home experiences are designed to amaze. We plan the menu with you, arrive with everything we need, cook and serve while you enjoy your guests, and quietly clean up before we go.</p>
-  <p>Don't see your occasion? <a href="/contact/">Tell us about it</a>. Custom events are our favorite kind.</p>
+  <p>Don't see your occasion? <a href={href('/contact/')}>Tell us about it</a>. Custom events are our favorite kind.</p>
 </CategoryPage>

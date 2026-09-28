@@ -1,4 +1,5 @@
 ---
+import { href } from '../lib/url';
 import Logo from './Logo.astro';
 import { nav, site } from '../data/site';
 interface Props { overlay?: boolean }
@@ -7,7 +8,7 @@ const path = Astro.url.pathname;
 ---
 <header class:list={['site-header', { 'site-header--overlay on-dark': overlay }]} data-header>
   <div class="site-header__inner wrap">
-    <a href="/" class="site-header__brand">
+    <a href={href('/')} class="site-header__brand">
       <Logo />
     </a>
 
@@ -15,11 +16,11 @@ const path = Astro.url.pathname;
       <ul>
         {nav.map((item) => (
           <li>
-            <a href={item.href} aria-current={path.startsWith(item.href) ? 'page' : undefined}>{item.label}</a>
+            <a href={href(item.href)} aria-current={path.startsWith(href(item.href)) ? 'page' : undefined}>{item.label}</a>
           </li>
         ))}
       </ul>
-      <a class="btn btn--small site-nav__cta" href="/contact/">Plan your event</a>
+      <a class="btn btn--small site-nav__cta" href={href('/contact/')}>Plan your event</a>
       <a class="site-nav__phone" href={`tel:${site.phoneE164}`}>{site.phone}</a>
     </nav>
 

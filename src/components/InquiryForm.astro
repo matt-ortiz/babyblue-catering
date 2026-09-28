@@ -1,4 +1,5 @@
 ---
+import { absolute } from '../lib/url';
 // Posts straight to Formspark — no backend needed on GitHub Pages.
 // Docs: https://documentation.formspark.io
 import { getCollection } from 'astro:content';
@@ -10,7 +11,7 @@ const groups = Object.entries(categories).map(([key, c]) => ({
   items: services.filter((s) => s.data.category === key),
 }));
 const action = `https://submit-form.com/${site.formsparkId}`;
-const redirect = new URL('/thank-you/', site.url).href;
+const redirect = absolute('/thank-you/');
 ---
 <form class="inquiry" action={action} method="POST" data-inquiry>
   <input type="hidden" name="_redirect" value={redirect} />

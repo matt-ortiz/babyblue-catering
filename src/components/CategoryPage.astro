@@ -1,4 +1,5 @@
 ---
+import { href, absolute } from '../lib/url';
 import type { ImageMetadata } from 'astro';
 import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
@@ -35,7 +36,7 @@ const itemList = {
   itemListElement: services.map((s, i) => ({
     '@type': 'ListItem',
     position: i + 1,
-    url: new URL(`/${s.id}/`, Astro.site).href,
+    url: absolute(`/${s.id}/`),
     name: s.data.title,
   })),
 };
@@ -43,7 +44,7 @@ const itemList = {
 <Base title={p.seoTitle} description={p.description} image={p.image} imageAlt={p.imageAlt} overlayHeader schema={[breadcrumbSchema(crumbs), itemList]}>
   <PageHero eyebrow={p.eyebrow} title={p.title} lead={p.lead} image={p.image} imageAlt={p.imageAlt} crumbs={crumbs}>
     <div class="btn-row">
-      <a class="btn btn--light" href="/contact/">Plan your event</a>
+      <a class="btn btn--light" href={href('/contact/')}>Plan your event</a>
     </div>
   </PageHero>
 

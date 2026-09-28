@@ -1,4 +1,5 @@
 ---
+import { href } from '../lib/url';
 import { Image } from 'astro:assets';
 import { getCollection, getEntry } from 'astro:content';
 import Base from '../layouts/Base.astro';
@@ -62,7 +63,7 @@ const gallery = [
       </h1>
       <p class="hero__lead">In-home dinner parties, sushi nights, weddings and private chef experiences. We shop, cook, serve and clean, so you can simply enjoy the people around your table.</p>
       <div class="btn-row">
-        <a class="btn btn--light" href="/contact/">Plan your event</a>
+        <a class="btn btn--light" href={href('/contact/')}>Plan your event</a>
         <a class="btn btn--ghost-light" href="#experiences">Explore experiences</a>
       </div>
     </div>
@@ -101,7 +102,7 @@ const gallery = [
       </div>
       <div class="cats">
         {cats.map((c) => (
-          <a class="cat reveal" href={c.href}>
+          <a class="cat reveal" href={href(c.href)}>
             <div class="frame cat__media"><Image src={c.img} alt="" widths={[500, 800]} sizes="(max-width: 700px) 100vw, 25vw" class="cover-img" /></div>
             <h3 class="cat__title">{c.label}</h3>
             <p class="cat__blurb">{c.blurb}</p>
@@ -136,9 +137,9 @@ const gallery = [
         <h2 class="h2">A menu should move the room.</h2>
         <p class="lead">Seasonal ingredients, thoughtful pacing, and a little theatre when the moment calls for it.</p>
         <nav class="band__links" aria-label="Featured service styles">
-          <a href="/fabulous-seated-dinner-experience/">Seated dinners <span aria-hidden="true">→</span></a>
-          <a href="/interactive-stations/">Interactive stations <span aria-hidden="true">→</span></a>
-          <a href="/hors-d-oeuvre-party/">Cocktail receptions <span aria-hidden="true">→</span></a>
+          <a href={href('/fabulous-seated-dinner-experience/')}>Seated dinners <span aria-hidden="true">→</span></a>
+          <a href={href('/interactive-stations/')}>Interactive stations <span aria-hidden="true">→</span></a>
+          <a href={href('/hors-d-oeuvre-party/')}>Cocktail receptions <span aria-hidden="true">→</span></a>
         </nav>
       </div>
       <div class="frame band__main reveal"><Image src={bandMain} alt="Glazed beef tenderloin garnished with an edible pansy" widths={[600, 900, 1300]} sizes="(max-width: 900px) 100vw, 40vw" class="cover-img" /></div>
@@ -156,7 +157,7 @@ const gallery = [
         <p class="eyebrow">From a real evening</p>
         <h2 class="h2">Every menu is written <em>for you.</em></h2>
         <p class="lead">No set menus and no reheated trays. Chef Jacob designs each dinner around the people at the table. Here's one we cooked for Dennis and Jeri's dinner party, which blended his love of Japanese technique with classic American comfort.</p>
-        <a class="link-arrow" href="/in-home-dinner-party/">See the dinner party experience <span aria-hidden="true">→</span></a>
+        <a class="link-arrow" href={href('/in-home-dinner-party/')}>See the dinner party experience <span aria-hidden="true">→</span></a>
       </div>
       <MenuCard menu={showcaseMenu} />
     </div>
@@ -195,7 +196,7 @@ const gallery = [
         <h2 class="h2">Jacob Thaller Ritenour</h2>
         <p class="lead">Raised in a family of restaurateurs and caterers, Chef Jacob has spent well over a decade planning, cooking and executing events large and small.</p>
         <p>His roots are in classic Western cooking, but his passion is Asian cuisine, sushi above all. He designs every menu from scratch with a clean, modern perspective: let beautiful, fresh ingredients speak for themselves.</p>
-        <a class="link-arrow" href="/about/">Our story <span aria-hidden="true">→</span></a>
+        <a class="link-arrow" href={href('/about/')}>Our story <span aria-hidden="true">→</span></a>
       </div>
     </div>
   </section>
@@ -215,7 +216,7 @@ const gallery = [
       <div class="section-head">
         <p class="eyebrow">Good to know</p>
         <h2 class="h2">Questions, answered</h2>
-        <a class="link-arrow" href="/faq/">All FAQs <span aria-hidden="true">→</span></a>
+        <a class="link-arrow" href={href('/faq/')}>All FAQs <span aria-hidden="true">→</span></a>
       </div>
       <div class="faq">
         {faqs.slice(0, 5).map((f) => (

@@ -1,4 +1,5 @@
 ---
+import { href } from '../lib/url';
 import Base from '../layouts/Base.astro';
 import { site } from '../data/site';
 ---
@@ -9,7 +10,7 @@ import { site } from '../data/site';
       <h1 class="display">Thank you. <em>We can't wait to cook for you.</em></h1>
       <p class="lead">Chef Jacob will review your details and reach out soon to start planning. Need us sooner? Call <a href={`tel:${site.phoneE164}`}>{site.phone}</a>.</p>
       <div class="btn-row" style="justify-content:center">
-        <a class="btn" href="/">Back to home</a>
+        <a class="btn" href={href('/')}>Back to home</a>
         <a class="btn btn--ghost" href={site.social.instagram} rel="noopener">Follow on Instagram</a>
       </div>
     </div>

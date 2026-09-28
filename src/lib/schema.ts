@@ -1,10 +1,10 @@
 // JSON-LD builders. Everything references the single business node (#business)
 // so search engines see one consistent entity across the whole site.
 import { site } from '../data/site';
+import { absolute as abs } from './url';
 
-const abs = (path: string) => new URL(path, site.url).href;
-export const BUSINESS_ID = `${site.url}/#business`;
-export const CHEF_ID = `${site.url}/#chef`;
+export const BUSINESS_ID = abs('/#business');
+export const CHEF_ID = abs('/#chef');
 
 export function businessSchema(imageUrl?: string, logoUrl?: string) {
   return {
@@ -15,7 +15,7 @@ export function businessSchema(imageUrl?: string, logoUrl?: string) {
     alternateName: ['BabyBlue Catering', 'Baby Blue Catering'],
     description:
       'Modern catering and private chef experiences in McKinney, Texas: in-home dinner parties, sushi parties, weddings, corporate events and personal chef services.',
-    url: site.url + '/',
+    url: abs('/'),
     telephone: site.phoneE164,
     email: site.email,
     image: imageUrl,
@@ -54,8 +54,8 @@ export function chefSchema(imageUrl?: string) {
 export function websiteSchema() {
   return {
     '@type': 'WebSite',
-    '@id': `${site.url}/#website`,
-    url: site.url + '/',
+    '@id': abs('/#website'),
+    url: abs('/'),
     name: site.name,
     publisher: { '@id': BUSINESS_ID },
     inLanguage: 'en-US',

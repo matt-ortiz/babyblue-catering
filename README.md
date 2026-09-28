@@ -4,7 +4,7 @@ A static [Astro](https://astro.build) site for babybluecatering.com, built to re
 
 ```bash
 npm install
-npm run dev       # http://localhost:4321
+npm run dev       # http://localhost:4400
 npm run build     # outputs to dist/
 npm run preview   # serve the production build locally
 ```
@@ -40,10 +40,18 @@ npm run preview   # serve the production build locally
 
 ## Deploying to GitHub Pages
 
-1. Push this folder to a GitHub repo (the contents of `claude/` should be the repo root).
-2. Repo **Settings → Pages → Source: GitHub Actions**. The workflow in `.github/workflows/deploy.yml` builds and deploys on every push to `main`.
-3. **Custom domain:** `public/CNAME` already contains `babybluecatering.com`. In GoDaddy DNS, point the apex `A` records to GitHub Pages (`185.199.108.153`, `185.199.109.153`, `185.199.110.153`, `185.199.111.153`) and `www` as a `CNAME` to `<username>.github.io`. Then tick **Enforce HTTPS** in Pages settings.
-4. After launch, submit `https://babybluecatering.com/sitemap-index.xml` in Google Search Console.
+Every push to `main` builds and deploys through `.github/workflows/deploy.yml`.
+
+### Now: preview at https://matt-ortiz.github.io/babyblue-catering/
+
+The workflow sets `SITE_URL` and `BASE_PATH`, so every link gets the `/babyblue-catering/` prefix. Internal links must go through `href()` from `src/lib/url.ts` so this keeps working. Preview builds are automatically `noindex` with `robots.txt` set to `Disallow: /`, so they never compete with the real site.
+
+### At launch: babybluecatering.com
+
+1. In `deploy.yml`, delete the `SITE_URL` and `BASE_PATH` lines. The build then defaults to `https://babybluecatering.com` at `/`, and noindex turns off.
+2. In GoDaddy DNS, point the apex `A` records to GitHub Pages (`185.199.108.153`, `185.199.109.153`, `185.199.110.153`, `185.199.111.153`) and set `www` as a `CNAME` to `matt-ortiz.github.io`.
+3. Repo **Settings → Pages → Custom domain**: enter `babybluecatering.com`, then tick **Enforce HTTPS** once the certificate is issued.
+4. Submit `https://babybluecatering.com/sitemap-index.xml` in Google Search Console.
 
 ## Inquiry form (Formspark)
 

@@ -3,6 +3,7 @@ import type { APIRoute } from 'astro';
 import { getCollection } from 'astro:content';
 import { site, categories } from '../data/site';
 import { priceLine } from '../lib/format';
+import { absolute } from '../lib/url';
 
 export const GET: APIRoute = async () => {
   const catOrder = Object.keys(categories);
@@ -17,13 +18,13 @@ export const GET: APIRoute = async () => {
     'All packages include shopping, preparation, service and cleanup. Prices are starting points and are subject to sales tax and a 25% gratuity. BabyBlue does not hold a liquor license; clients provide alcohol.',
     '',
     '## Services',
-    ...services.map((s) => `- [${s.data.title}](${site.url}/${s.id}/): ${s.data.cardBlurb} ${priceLine(s.data.price)}.`),
+    ...services.map((s) => `- [${s.data.title}](${absolute(`/${s.id}/`)}): ${s.data.cardBlurb} ${priceLine(s.data.price)}.`),
     '',
     '## More',
-    `- [About Chef Jacob](${site.url}/about/)`,
-    `- [FAQ](${site.url}/faq/)`,
-    `- [Service area](${site.url}/service-area/)`,
-    `- [Contact / inquiry](${site.url}/contact/)`,
+    `- [About Chef Jacob](${absolute('/about/')})`,
+    `- [FAQ](${absolute('/faq/')})`,
+    `- [Service area](${absolute('/service-area/')})`,
+    `- [Contact / inquiry](${absolute('/contact/')})`,
   ];
   return new Response(lines.join('\n'), { headers: { 'Content-Type': 'text/plain; charset=utf-8' } });
 };

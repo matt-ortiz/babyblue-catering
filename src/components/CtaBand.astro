@@ -1,4 +1,5 @@
 ---
+import { href } from '../lib/url';
 import { Image } from 'astro:assets';
 import { site } from '../data/site';
 import bg from '../assets/photos/table-flowers.jpg';
@@ -12,7 +13,7 @@ const {
   body = 'Tell us about your celebration and we’ll put together a custom proposal just for you.',
   service,
 } = Astro.props;
-const href = service ? `/contact/?service=${service}` : '/contact/';
+const ctaHref = href(service ? `/contact/?service=${service}` : '/contact/');
 ---
 <section class="cta on-dark">
   <Image src={bg} alt="" widths={[800, 1400, 2000]} sizes="100vw" class="cta__bg" loading="lazy" />
@@ -21,7 +22,7 @@ const href = service ? `/contact/?service=${service}` : '/contact/';
     <h2 class="display">{title}</h2>
     <p class="cta__body">{body}</p>
     <div class="btn-row">
-      <a class="btn btn--light" href={href}>Start your inquiry</a>
+      <a class="btn btn--light" href={ctaHref}>Start your inquiry</a>
       <a class="btn btn--ghost-light" href={`tel:${site.phoneE164}`}>Call {site.phone}</a>
     </div>
   </div>

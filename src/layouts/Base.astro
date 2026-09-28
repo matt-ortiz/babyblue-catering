@@ -6,6 +6,7 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import { site } from '../data/site';
 import { businessSchema, websiteSchema, graph } from '../lib/schema';
+import { href, absolute, isPreview } from '../lib/url';
 import defaultOg from '../assets/photos/dinner-party-toast.jpg';
 
 interface Props {
@@ -34,7 +35,7 @@ const ogUrl = new URL(og.src, Astro.site).href;
 const heroOg = await getImage({ src: defaultOg, width: 1200, format: 'jpg' });
 
 const jsonLd = graph(
-  businessSchema(new URL(heroOg.src, Astro.site).href, new URL('/logo.png', Astro.site).href),
+  businessSchema(new URL(heroOg.src, Astro.site).href, absolute('/logo.png')),
   websiteSchema(),
   ...schema,
 );
@@ -48,11 +49,11 @@ const jsonLd = graph(
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
-    {noindex && <meta name="robots" content="noindex, follow" />}
+    {(noindex || isPreview) && <meta name="robots" content="noindex, follow" />}
     <meta name="theme-color" content="#0f1b2d" />
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-    <link rel="sitemap" href="/sitemap-index.xml" />
+    <link rel="icon" href={href('/favicon.svg')} type="image/svg+xml" />
+    <link rel="apple-touch-icon" href={href('/apple-touch-icon.png')} />
+    <link rel="sitemap" href={href('/sitemap-index.xml')} />
 
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content={site.name} />

@@ -1,4 +1,5 @@
 ---
+import { absolute } from '../lib/url';
 import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import InquiryForm from '../components/InquiryForm.astro';
@@ -15,7 +16,7 @@ const crumbs = [
   title="Contact & Event Inquiry | BabyBlue Modern Catering, McKinney TX"
   description="Plan your dinner party, wedding, corporate event or private chef experience in McKinney & DFW. Send an inquiry or call BabyBlue Modern Catering today."
   image={side}
-  schema={[breadcrumbSchema(crumbs), { '@type': 'ContactPage', name: 'Contact BabyBlue Modern Catering', url: new URL('/contact/', Astro.site).href }]}
+  schema={[breadcrumbSchema(crumbs), { '@type': 'ContactPage', name: 'Contact BabyBlue Modern Catering', url: absolute('/contact/') }]}
 >
   <section class="contact">
     <div class="contact__media">

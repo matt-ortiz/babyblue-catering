@@ -1,4 +1,5 @@
 ---
+import { href } from '../lib/url';
 import Base from '../layouts/Base.astro';
 ---
 <Base title="Page Not Found | BabyBlue Modern Catering" description="This page has moved or no longer exists." noindex>
@@ -8,9 +9,9 @@ import Base from '../layouts/Base.astro';
       <h1 class="display">This course isn't on the menu.</h1>
       <p class="lead">The page you're looking for has moved. Try one of these instead.</p>
       <div class="btn-row" style="justify-content:center">
-        <a class="btn" href="/">Home</a>
-        <a class="btn btn--ghost" href="/in-home-catering/">In-home catering</a>
-        <a class="btn btn--ghost" href="/contact/">Contact</a>
+        <a class="btn" href={href('/')}>Home</a>
+        <a class="btn btn--ghost" href={href('/in-home-catering/')}>In-home catering</a>
+        <a class="btn btn--ghost" href={href('/contact/')}>Contact</a>
       </div>
     </div>
   </section>

@@ -1,10 +1,8 @@
 name: Deploy to GitHub Pages
 
 on:
-  # Manual-only until GitHub Pages is enabled for this repo.
-  # To auto-deploy on every push, restore:
-  #   push:
-  #     branches: [main]
+  push:
+    branches: [main]
   workflow_dispatch:
 
 permissions:
@@ -23,6 +21,12 @@ jobs:
       - uses: actions/checkout@v7
       - name: Install, build, and upload site
         uses: withastro/action@v6
+        env:
+          # Preview at https://matt-ortiz.github.io/babyblue-catering/ (noindexed).
+          # At launch on babybluecatering.com, delete these two lines so the
+          # build uses the production defaults in astro.config.mjs.
+          SITE_URL: https://matt-ortiz.github.io
+          BASE_PATH: /babyblue-catering
 
   deploy:
     needs: build

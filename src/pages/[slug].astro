@@ -1,4 +1,5 @@
 ---
+import { href } from '../lib/url';
 import { Image, getImage } from 'astro:assets';
 import { getCollection, getEntries, render, type CollectionEntry } from 'astro:content';
 import Base from '../layouts/Base.astro';
@@ -63,7 +64,7 @@ const guestNote = d.minimumGuests
       {guestNote && <span>{guestNote}</span>}
     </div>
     <div class="btn-row">
-      <a class="btn btn--light" href={`/contact/?service=${service.id}`}>Request a proposal</a>
+      <a class="btn btn--light" href={href(`/contact/?service=${service.id}`)}>Request a proposal</a>
       <a class="btn btn--ghost-light" href={`tel:${site.phoneE164}`}>Call {site.phone}</a>
     </div>
   </PageHero>
@@ -89,7 +90,7 @@ const guestNote = d.minimumGuests
           <div><dt>Service area</dt><dd>{site.city} &amp; DFW</dd></div>
           <div><dt>Menu</dt><dd>Custom-designed</dd></div>
         </dl>
-        <a class="btn" href={`/contact/?service=${service.id}`}>Check your date</a>
+        <a class="btn" href={href(`/contact/?service=${service.id}`)}>Check your date</a>
         <p class="glance__fine">{fineprint}{d.terms ? ` ${d.terms}` : ''}</p>
       </aside>
     </div>
